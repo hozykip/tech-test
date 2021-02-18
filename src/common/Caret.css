@@ -1,0 +1,19 @@
+.caret {
+  margin: 0 0 0 0.3em;
+  width: 0;
+  height: 0;
+  display: inline-block;
+  border: 0.3em solid transparent;
+}
+.caret.down {
+  border-top-color: rgb(189, 192, 175);
+}
+.caret.right {
+  border-left-color: rgb(189, 192, 175);
+}
+.caret.up {
+  border-bottom-color: rgb(189, 192, 175);
+}
+.caret.left {
+  border-right-color: rgb(189, 192, 175);
+}
