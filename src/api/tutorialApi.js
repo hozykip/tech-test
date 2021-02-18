@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "http://localhost/tech-test/index.php";
+const baseUrl = "http://localhost/tech-test-api/index.php";
 
 export function getTutorials() {
   return fetch(baseUrl,{ credentials: 'same-origin' }).then(handleResponse).catch(handleError);
