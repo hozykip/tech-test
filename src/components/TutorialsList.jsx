@@ -8,27 +8,25 @@ const TutorialsList = ({
   onPublishClick,
   onSearch,
   onDeleteClick,
-  onSort,
-  sortBy,
+  filteredTutorials
+  //onSort,
+  //sortBy,
 }) => (
   <>
     
-    <input type="search" placeholder="search tutorial by name" className="form-control" onChange={onSearch} />
+    <input type="search" placeholder="search tutorial by name" name="search" className="form-control" onChange={onSearch} />
 
     <table className="table">
       <thead>
         <tr>
           
           <th
-            onClick={onSort}
+            //onClick={onSort}
             data-name="title"
             style={{ cursor: "pointer" }}
             title="Order by title"
           >
-            Title{" "}
-            {sortBy && sortBy.criteria === "title" && (
-              <Caret direction={sortBy.incr ? "down" : "up"} />
-            )}
+            Title            
           </th>
 
           <th>Status</th>
@@ -36,12 +34,17 @@ const TutorialsList = ({
           {/* <th>Publish</th> */}
 
           <th>Edit</th>
+
+          <th>Publish</th>
           
           <th>Delete</th>
         </tr>
       </thead>
       <tbody>
-        {tutorials.map((tutorial) => {
+        {filteredTutorials.map((tutorial) => {
+
+          const publish_classes = `btn ${tutorial.published == 1 ? 'btn-success' : 'btn-danger'}`;
+
           return (
             <tr key={tutorial.id}>
               
@@ -75,6 +78,12 @@ const TutorialsList = ({
 
               <td>
 
+                <button id={tutorial.id} onClick={() => onPublishClick(tutorial)} className={publish_classes} title={tutorial.published > 0 ? "Unpublish: " + tutorial.title : "Publish: " + tutorial.title} >{tutorial.published > 0 ? "Published" : "Unpublished"}</button>
+                
+              </td>
+              
+              <td>
+
                 <button
                   className="btn btn-outline-danger"
                   onClick={() => onDeleteClick(tutorial)}
@@ -96,8 +105,9 @@ TutorialsList.propTypes = {
   onPublishClick: PropTypes.func,
   onSearch: PropTypes.func,
   onChange: PropTypes.func,
-  onSort: PropTypes.func,
-  sortBy: PropTypes.object,
+  filteredTutorials: PropTypes.array.isRequired
+  //onSort: PropTypes.func,
+  //sortBy: PropTypes.object,
 };
 
 export default TutorialsList;

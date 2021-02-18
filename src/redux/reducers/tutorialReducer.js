@@ -7,7 +7,6 @@ export default function tutorialReducer(state = initialState.tutorials, action) 
     case types.CREATE_TUTORIAL_SUCCESS:
       return [...state, { ...action.tutorial }];
     case types.UPDATE_TUTORIAL_SUCCESS:
-      alert(action.tutorial.title);
       return state.map((tutorial) =>
         tutorial.id === action.tutorial.id ? action.tutorial : tutorial
       );
@@ -19,3 +18,5 @@ export default function tutorialReducer(state = initialState.tutorials, action) 
       return state;
   }
 }
+
+

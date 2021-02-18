@@ -2,7 +2,7 @@ const newTutorial = {
   id: null,
   title: "",
   description: "",
-  published: false
+  published: 0
 };
 
 module.exports = {

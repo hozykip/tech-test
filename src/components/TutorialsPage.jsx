@@ -7,20 +7,26 @@ import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import TutorialsList from "./TutorialsList";
+import { act } from "react-dom/test-utils";
 
 export function TutorialsPage({ actions, tutorials, loading }) {
 
   const [sortBy, setSortBy] = useState(false);
   const [redirectToAddTutorialPage, setRedirectToAddPage] = useState(false);
   const [filteredTutorials, setFilteredTutorials] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(()=> {
     if (tutorials.length === 0) {
       actions.loadTutorials().catch((err) => {
           toast.error("Error Loading tutorials: " + err, { autoClose: false });
       });
+    }else{
+      setFilteredTutorials([...tutorials]);
     }
-  });
+
+  },[tutorials]);
 
   
 
@@ -34,24 +40,30 @@ export function TutorialsPage({ actions, tutorials, loading }) {
   };
   
   async function handlePublishTutorial (tutorial) {
-    tutorial.published = tutorial.published == 1 ? 0 : 1;
 
-    let new_tutorial = {...tutorial};
-    new_tutorial.published = tutorial.published == 1 ? 0 : 1;
-    
-    try {
-      await actions.saveTutorial(new_tutorial);
-      alert("dddd")
-      toast.success("Tutorial published successfully");
-    } catch (err) {
-      toast.error("Publish failed " + err.message, { autoClose: false });
-    }
+    const newTutorial = {...tutorial, published: tutorial.published === 1 ? 0 : 1 }
+
+    setSaving(true);
+    actions.saveTutorial(newTutorial)
+      .then((tut) => {
+        setSaving(false);
+        toast.success(tut.published ? "Tutorial published successfully" : "Tutorial unpublished successfully")
+      })
+      .catch((error) => {
+        setSaving(false);
+        setErrors({ onSave: error.message });
+      });
   };
 
 
   function handleSearch (event) {
     const { name, value } = event.target;
-    setFilteredTutorials((prevState) => {})
+
+
+    setFilteredTutorials((prevState) => {
+      const filtered = tutorials.filter(x => x.title.toLowerCase().includes(value.toLowerCase()));
+      return filtered;
+    });
   }
 
   function handleFilter (event) {
@@ -92,6 +104,7 @@ export function TutorialsPage({ actions, tutorials, loading }) {
                 onSort={handleSort}
                 sortBy={sortBy}
                 onSearch={handleSearch}
+                filteredTutorials={filteredTutorials}
               />
             ) : (
               <div className="alert alert-info">No Tutorials</div>

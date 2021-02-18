@@ -7,12 +7,14 @@ export function getTutorials() {
 
 export function saveTutorial(tutorial) {
   var myHeaders = new Headers({
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*'
-});
+    'Content-Type': 'application/json',
+      Origin: "http://localhost:3000",
+    'Access-Control-Request-Method': 'POST',
+    'Access-Control-Request-Headers': 'Content-Type, Authorization',
+  });
 
 
-  return fetch(baseUrl + (tutorial.id || ""), {
+  return fetch(baseUrl, {
     method: "POST",
     headers: myHeaders,
     body: JSON.stringify(tutorial),
@@ -24,7 +26,15 @@ export function saveTutorial(tutorial) {
 }
 
 export function deleteTutorial(tutorialId) {
-  return fetch(baseUrl + tutorialId, { method: "DELETE" })
+
+  let tutorial = { id:tutorialId }
+
+  return fetch(baseUrl, 
+  { 
+    method: "DELETE", 
+    body: JSON.stringify(tutorial),
+    credentials: 'same-origin',
+  })
     .then(handleResponse)
     .catch(handleError);
 }

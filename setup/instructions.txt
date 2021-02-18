@@ -1,0 +1,6 @@
+1. copy the folder tech-test-api from /setup folder to your web root folder and ensure that it is running.
+2. create a tech-test database in MySQL and import tech-test.sql
+3. Ensure that tech-test-api/dbConfig.php has correct credentials for MySQL and test by running index.php on your browser.
+4. If above is okay. Copy the link address to index.php from the browser and replace 'baseUrl' field in the react project folder i.e. tech-test/src/api/tutorialApi.js file 
+5. Run yarn install on your terminal from react project folder
+6. Run yarn start

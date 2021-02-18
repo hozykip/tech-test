@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
-import SelectInput from "../common/SelectInput";
+import { Link } from "react-router-dom";
 
 const TutorialForm = ({
   tutorial,
@@ -11,6 +11,12 @@ const TutorialForm = ({
   errors = {},
 }) => {
   return (
+    <>
+    <Link
+      to={"/"}
+      className="btn btn-secondary"
+      style={{ marginBottom: 20 }}
+            >Back</Link>
     <form onSubmit={onSave}>
       <h2>{tutorial.id ? "Edit" : "Add"} Tutorial</h2>
       {errors.onSave && (
@@ -39,6 +45,8 @@ const TutorialForm = ({
         {saving ? "Saving..." : "Save"}
       </button>
     </form>
+    </>
+    
   );
 };
 

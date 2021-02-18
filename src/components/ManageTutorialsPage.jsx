@@ -15,7 +15,6 @@ export function ManageTutorialsPage({
   ...props
 }) {
 
-    console.log(props);
 
   const [tutorial, setTutorial] = useState({ ...props.tutorial });
   const [errors, setErrors] = useState({});
@@ -104,21 +103,21 @@ export function getTutorialById(tutorials, id) {
   return tutorials.find((tutorial) => tutorial.id === id || null);
 }
 
-
-
-
-
 function mapStateToProps(state,ownProps) {
     const id = ownProps.match.params.id;
-  const tutorial =
+  let tutorial =
     id && state.tutorials.length > 0
       ? getTutorialById(state.tutorials, id)
       : newTutorial;
+
+      tutorial = isNaN(id) ? newTutorial : tutorial;
   return {
     tutorial,
     tutorials: state.tutorials,
   };
 }
+
+
 
 function mapDispatchToProps(dispatch) {
   return {
